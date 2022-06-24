@@ -5,7 +5,7 @@ import com.example.timeregistration.model.User;
 /**
  * Implementation of Factory Method for class {@link JwtUser}.
  *
- * @author Bohdan Chui
+ * @author Bohdan
  * @version 1.0
  */
 
