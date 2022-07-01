@@ -2,6 +2,8 @@ package com.five.auth.model.authorities;
 
 //import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -19,10 +21,10 @@ public enum Role {
         return permissions;
     }
 //
-//    public Set<SimpleGrantedAuthority> getAuthorities() {
-//        return getPermissions().stream()
-//                .map(permission -> new SimpleGrantedAuthority(permission.getPermission()))
-//                .collect(Collectors.toSet());
-//    }
+    public Set<SimpleGrantedAuthority> getAuthorities() {
+        return getPermissions().stream()
+                .map(permission -> new SimpleGrantedAuthority(permission.getPermission()))
+                .collect(Collectors.toSet());
+    }
 }
 
