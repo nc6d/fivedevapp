@@ -13,9 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashMap;
@@ -23,6 +22,7 @@ import java.util.Map;
 
 @RestController
 @Log4j2
+@RequestMapping("/auth")
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
@@ -62,6 +62,10 @@ public class AuthController {
             response.put("email", request.getEmail());
             response.put("token", token);
             return ResponseEntity.ok(response);
+    }
+    @GetMapping("/get-email")
+    public ResponseEntity<String> getEmail() {
+        return ResponseEntity.status(HttpStatus.OK).body(SecurityContextHolder.getContext().getAuthentication().getName());
     }
 
 }

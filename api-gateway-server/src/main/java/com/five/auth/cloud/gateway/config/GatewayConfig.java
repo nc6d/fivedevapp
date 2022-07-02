@@ -19,6 +19,9 @@ public class GatewayConfig {
 				.route("auth", r -> r.path("/auth/**")
 						.filters(f -> f.filter(filter)).uri("lb://auth"))
 
+				.route("record", r -> r.path("/record/**")
+						.filters(f -> f.filter(filter)).uri("lb://record"))
+
 				.build();
 	}
 

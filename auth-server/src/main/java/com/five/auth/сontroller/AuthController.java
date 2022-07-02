@@ -6,14 +6,16 @@ import com.five.auth.model.dto.AuthenticationDTO;
 import com.five.auth.model.dto.RegisteredDto;
 import com.five.auth.model.dto.RegistrationDto;
 import com.five.auth.service.UserService;
-import com.five.auth.util.JwtUtil;
+import com.five.auth.security.jwt.JwtUtil;
+import io.jsonwebtoken.Jwts;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,41 +27,44 @@ import java.util.Map;
 @RestController
 public class AuthController {
 
-	@Autowired
-	private JwtUtil jwtUtil;
+    @Autowired
+    private JwtUtil jwtUtil;
 
-	private final UserService userService;
-	private final ModelMapper modelMapper;
-	private final AuthenticationManager authenticationManager;
+    private final UserService userService;
+    private final ModelMapper modelMapper;
+    private final AuthenticationManager authenticationManager;
 
 
-	public AuthController(UserService userService, ModelMapper modelMapper, AuthenticationManager authenticationManager) {
-		this.userService = userService;
-		this.modelMapper = modelMapper;
-		this.authenticationManager = authenticationManager;
-	}
+    public AuthController(UserService userService, ModelMapper modelMapper, AuthenticationManager authenticationManager) {
+        this.userService = userService;
+        this.modelMapper = modelMapper;
+        this.authenticationManager = authenticationManager;
+    }
 
-	@PostMapping("/auth/login")
-	public ResponseEntity<Map<Object,Object>> login(@RequestBody AuthenticationDTO request) {
+    @PostMapping("/auth/login")
+    public ResponseEntity<Map<Object, Object>> login(@RequestBody AuthenticationDTO request) {
 
-	authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
-		User user = userService.findByEmail(request.getEmail());
-		String token = jwtUtil.generateToken(request.getEmail(), user.getRole());
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+        User user = userService.findByEmail(request.getEmail());
+        String token = jwtUtil.generateToken(request.getEmail());
+        Map<Object, Object> response = new HashMap<>();
+//        response.put("email", request.getEmail());
+        response.put("token", token);
+        return ResponseEntity.ok(response);
 
-		Map<Object, Object> response = new HashMap<>();
-		response.put("email", request.getEmail());
-		response.put("token", token);
-		return ResponseEntity.ok(response);
+    }
 
-	}
+    @PostMapping("/auth/register")
+    public ResponseEntity<RegisteredDto> register(@Valid @RequestBody RegistrationDto registrationDto) {
+        User savedUser = userService.register(modelMapper.map(registrationDto, User.class), Role.USER);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(modelMapper.map(savedUser, RegisteredDto.class));
+    }
 
-	@PostMapping("/auth/register")
-	public ResponseEntity<RegisteredDto> register(@Valid @RequestBody RegistrationDto registrationDto) {
-		User savedUser = userService.register(modelMapper.map(registrationDto, User.class), Role.USER);
-		return ResponseEntity
-				.status(HttpStatus.CREATED)
-				.body(modelMapper.map(savedUser, RegisteredDto.class));
-	}
+    @GetMapping("auth/get-email")
+    public ResponseEntity<String> getEmail() {
+        return ResponseEntity.status(HttpStatus.OK).body(SecurityContextHolder.getContext().getAuthentication().getName());
+    }
 
 }

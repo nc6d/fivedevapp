@@ -1,4 +1,4 @@
-package com.five.auth.exception;
+package com.five.auth.security.exception;
 
 import javax.naming.AuthenticationException;
 

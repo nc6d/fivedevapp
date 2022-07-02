@@ -23,11 +23,14 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+	implementation 'org.springframework.boot:spring-boot-starter-security:2.6.7'
+
 
 	implementation 'javax.xml.bind:jaxb-api:2.4.0-b180830.0359'
 	implementation 'io.jsonwebtoken:jjwt:0.9.1'
 	implementation 'org.modelmapper:modelmapper:2.4.5'
-	implementation 'org.springframework.boot:spring-boot-starter-security:2.6.7'
+	implementation 'commons-codec:commons-codec:1.15'
+
 
 
 // lombok

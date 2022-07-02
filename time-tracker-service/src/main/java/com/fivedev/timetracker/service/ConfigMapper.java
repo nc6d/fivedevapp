@@ -1,4 +1,4 @@
-package com.five.auth.util;
+package com.fivedev.timetracker.service;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;

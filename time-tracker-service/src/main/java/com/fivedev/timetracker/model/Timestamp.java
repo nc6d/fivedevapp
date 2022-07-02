@@ -16,7 +16,6 @@ public class Timestamp {
 
     private Double value;
 
-    @DBRef
-    private User user;
+    private String username;
 
 }

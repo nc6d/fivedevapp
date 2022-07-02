@@ -6,11 +6,19 @@ import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import java.util.Base64;
+
 @Component
 public class JwtUtil {
 
     @Value("${jwt.secret}")
     private String jwtSecret;
+
+    @PostConstruct
+    protected void init() {
+        jwtSecret = Base64.getEncoder().encodeToString(jwtSecret.getBytes());
+    }
 
     public Claims getClaims(final String token) {
         try {
@@ -37,5 +45,6 @@ public class JwtUtil {
             throw new JwtTokenMissingException("JWT claims string is empty.");
         }
     }
+
 
 }

@@ -1,6 +1,5 @@
-package com.example.timeregistration.security.jwt;
+package com.five.auth.security.jwt;
 
-import com.example.timeregistration.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

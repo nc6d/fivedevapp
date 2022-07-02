@@ -1,6 +1,6 @@
 package com.five.auth.service;
 
-import com.five.auth.exception.UserAlreadyRegisteredException;
+import com.five.auth.security.exception.UserAlreadyRegisteredException;
 import com.five.auth.model.authorities.Role;
 import com.five.auth.model.User;
 import com.five.auth.repository.UserRepository;

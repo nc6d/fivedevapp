@@ -48,7 +48,7 @@ public class JwtAuthenticationFilter implements GatewayFilter {
 				// e.printStackTrace();
 
 				ServerHttpResponse response = exchange.getResponse();
-				response.setStatusCode(HttpStatus.BAD_REQUEST);
+				response.setStatusCode(HttpStatus.CONFLICT);
 
 				return response.setComplete();
 			}
