@@ -18,9 +18,10 @@ public class GatewayConfig {
 		return builder.routes()
 				.route("auth", r -> r.path("/auth/**")
 						.filters(f -> f.filter(filter)).uri("lb://auth"))
-
 				.route("record", r -> r.path("/record/**")
 						.filters(f -> f.filter(filter)).uri("lb://record"))
+				.route("file", r -> r.path("/file/**")
+						.filters(f -> f.filter(filter)).uri("lb://file"))
 
 				.build();
 	}
